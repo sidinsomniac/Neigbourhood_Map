@@ -3,12 +3,18 @@ import './App.css';
 
 class App extends Component {
 
-  renderMap = () => {
-    loadAPIScript();
+  componentDidMount() {
+    this.loadMap();
+  }
+
+  loadMap = () => {
+    let key = 'AIzaSyBEcapmmHV5KKE8xT1jPWiyWVApNnRqMsE';
+    loadAPIScript(`https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`);
+    window.initMap = this.initMap;
   }
   
   initMap = () => {
-    const map = new google.maps.Map(document.getElementById('map'), {
+    const map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: -34.397, lng: 150.644},
       zoom: 8
     });
@@ -23,10 +29,8 @@ class App extends Component {
   }
 }
 
-{/* <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script> */}
-
 const loadAPIScript = url => {
-  let firstScript = window.document.querySelector('script')[0];
+  let firstScript = window.document.getElementsByTagName('script')[0];
   let script = window.document.createElement('script');
   script.src = url;
   script.async = true;
