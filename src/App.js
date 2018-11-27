@@ -3,8 +3,15 @@ import './App.css';
 
 class App extends Component {
 
+  state = {
+    venues: []
+  }
+
+  location= {lat: 22.6206, lng: 88.4329};
+
   componentDidMount() {
     this.loadMap();
+    this.getLocation();
   }
 
   loadMap = () => {
@@ -15,8 +22,35 @@ class App extends Component {
   
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: -34.397, lng: 150.644},
-      zoom: 8
+      center: this.location,
+      zoom: 18
+    });
+  }
+
+  getLocation = () => {
+    const endPoint = 'https://api.foursquare.com/v2/venues/explore?',
+      parameters = {
+      client_id : 'LDOFR0JEF4ADEFUIESEGAH4QFKA1HB0SW2JJFACNWRVANT5J',
+      client_secret : 'VDE3JJTRSTWCXPEAW1V2P3C0AZZEOA5VHV3KXDTT3Y1CMMUY',
+      query : 'food',
+      ll : `${this.location.lat},${this.location.lng}`,
+      limit: 20,
+      v: 20181127
+    };
+
+      fetch(endPoint
+        +'client_id='+parameters.client_id
+        +'&client_secret='+parameters.client_secret
+        +'&v='+parameters.v
+        +'&ll='+parameters.ll
+        +'&query='+parameters.query
+        +'&limit='+parameters.limit)
+    .then(response => response.json())
+    .then(data => this.setState({
+      venues: data.response.groups[0].items
+    }))
+    .catch(function(error) {
+        console.log('Error: '+error);
     });
   }
 
