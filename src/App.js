@@ -23,16 +23,32 @@ class App extends Component {
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: this.location,
-      zoom: 12
     });
 
+
+    let infowindow = new window.google.maps.InfoWindow();
+    let bounds = new window.google.maps.LatLngBounds();
+
     this.state.venues.forEach(newVenue => {
+
+      let contentString = `<h3>${newVenue.venue.name}</h3>
+      <h4>${newVenue.venue.categories[0].name}</h4>`;
+      
       let marker = new window.google.maps.Marker({
         position: {lat:newVenue.venue.location.lat,lng:newVenue.venue.location.lng},
         map: map,
         title: newVenue.venue.name
       })
+
+      bounds.extend(marker.position);
+
+      marker.addListener('click', () => {
+        infowindow.setContent(contentString);
+        infowindow.open(map,marker);
+      });
     })
+
+    map.fitBounds(bounds);
 
   }
 
