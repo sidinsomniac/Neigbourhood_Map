@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import './App.css';
 
@@ -10,7 +11,6 @@ class App extends Component {
   location= {lat: 22.6206, lng: 88.4329};
 
   componentDidMount() {
-    this.loadMap();
     this.getLocation();
   }
 
@@ -23,8 +23,17 @@ class App extends Component {
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: this.location,
-      zoom: 18
+      zoom: 12
     });
+
+    this.state.venues.forEach(newVenue => {
+      let marker = new window.google.maps.Marker({
+        position: {lat:newVenue.venue.location.lat,lng:newVenue.venue.location.lng},
+        map: map,
+        title: newVenue.venue.name
+      })
+    })
+
   }
 
   getLocation = () => {
@@ -48,7 +57,7 @@ class App extends Component {
     .then(response => response.json())
     .then(data => this.setState({
       venues: data.response.groups[0].items
-    }))
+    },this.loadMap()))
     .catch(function(error) {
         console.log('Error: '+error);
     });
