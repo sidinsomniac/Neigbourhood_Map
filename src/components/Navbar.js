@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import Listing from './Listing';
+import Listing from './Listing'
+import '../styles/navbar.css'
 
 class Navbar extends Component {
 
@@ -18,7 +19,7 @@ class Navbar extends Component {
 
 				<h1>Neighbourhood Map</h1>
 				
-				{this.state.showListing ? <Listing/> : ''}
+				{this.state.showListing ? <Listing venueList={this.props.venueList}/> : ''}
 			</nav>
 		)
 	}

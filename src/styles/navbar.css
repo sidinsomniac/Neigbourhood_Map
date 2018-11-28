@@ -1,0 +1,25 @@
+nav {
+	display: flex;
+	width: 100vw;
+	height: 10vh;
+}
+
+nav h1 {
+	text-align: center;
+	width: 100%;
+}
+
+#hamburger {
+	height: 100%;
+	width: 10vh;
+	font-size: 3em;
+	text-align: center;
+	background: #fff;
+	color: #000;
+	z-index: 3;
+}
+
+#hamburger:hover {
+	background: #000;
+	color: #fff;
+}

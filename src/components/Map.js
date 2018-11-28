@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import '../styles/map.css'
 
 class Map extends Component {
 	render() {

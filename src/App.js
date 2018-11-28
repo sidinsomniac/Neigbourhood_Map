@@ -84,7 +84,7 @@ class App extends Component {
   render() {
     return (
       <main>
-        <Navbar/>
+        <Navbar venueList={this.state.venues}/>
         <Map/>
         <Footer/>
       </main>
