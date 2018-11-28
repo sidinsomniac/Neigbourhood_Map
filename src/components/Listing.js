@@ -8,7 +8,7 @@ class Listing extends Component {
 				<input type="text" placeholder="Search by title or author" id='searchbar'/>
 				<ul id='venueList'>
 					{this.props.venueList.map(eachVenue => (
-						<li>{eachVenue.venue.name}</li>
+						<li key={eachVenue.venue.id}>{eachVenue.venue.name}</li>
 					))}
 				</ul>
 			</section>

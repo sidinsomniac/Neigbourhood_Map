@@ -4,25 +4,41 @@ import './App.css'
 import Map from './components/Map'
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Listing from './components/Listing';
 
+
+// ***Class begins here***
 class App extends Component {
-
+  
+  // State
   state = {
     venues: [],
-    location: {lat: 22.6206, lng: 88.4329}
+    location: {lat: 22.6206, lng: 88.4329},
+    showListing: false
   }
 
+  
+  // Hide venue lists on hamburger click
+  hideListings = () => {
+    this.setState({
+      showListing: !this.state.showListing
+    })
+  }
 
   componentDidMount() {
     this.getLocation();
   }
 
+  
+  // Loads the map with keys
   loadMap = () => {
     let key = 'AIzaSyBEcapmmHV5KKE8xT1jPWiyWVApNnRqMsE';
     loadAPIScript(`https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`);
     window.initMap = this.initMap;
   }
   
+  
+  // Initializes map markers and info windows
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: this.state.location,
@@ -32,7 +48,6 @@ class App extends Component {
     let bounds = new window.google.maps.LatLngBounds();
 
     this.state.venues.forEach(newVenue => {
-
       let contentString = `<h3>${newVenue.venue.name}</h3>
       <h4>${newVenue.venue.categories[0].name}</h4>`;
       
@@ -49,11 +64,11 @@ class App extends Component {
         infowindow.open(map,marker);
       });
     })
-
     map.fitBounds(bounds);
-
   }
 
+  
+  // Fetches from the FoursquareAPI all the venues, sets the state, and loads map accordingly
   getLocation = () => {
     const endPoint = 'https://api.foursquare.com/v2/venues/explore?',
       parameters = {
@@ -64,7 +79,6 @@ class App extends Component {
       limit: 20,
       v: 20181127
     };
-
       fetch(endPoint
         +'client_id='+parameters.client_id
         +'&client_secret='+parameters.client_secret
@@ -81,16 +95,24 @@ class App extends Component {
     });
   }
 
+  
+  // Renders page
   render() {
     return (
       <main>
-        <Navbar venueList={this.state.venues}/>
+        {/* Navbar */}
+        <Navbar hideListings={this.hideListings}/>
+        {/* Listings */}
+				{this.state.showListing && <Listing venueList={this.state.venues}/>}        
+        {/* Map */}
         <Map/>
+        {/* Footer */}
         <Footer/>
       </main>
     );
   }
 }
+// ***End of Class***
 
 const loadAPIScript = url => {
   let firstScript = window.document.getElementsByTagName('script')[0];
