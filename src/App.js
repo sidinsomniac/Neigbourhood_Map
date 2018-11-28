@@ -14,7 +14,9 @@ class App extends Component {
   state = {
     venues: [],
     location: {lat: 22.6206, lng: 88.4329},
-    showListing: false
+    showListing: false,
+    selectedMarkerIndex: 0,
+    center: {}
   }
 
   
