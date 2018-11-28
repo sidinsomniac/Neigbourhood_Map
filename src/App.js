@@ -1,14 +1,17 @@
 /* eslint-disable no-unused-vars */
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
+import Map from './components/Map'
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 class App extends Component {
 
   state = {
-    venues: []
+    venues: [],
+    location: {lat: 22.6206, lng: 88.4329}
   }
 
-  location= {lat: 22.6206, lng: 88.4329};
 
   componentDidMount() {
     this.getLocation();
@@ -22,9 +25,8 @@ class App extends Component {
   
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
-      center: this.location,
+      center: this.state.location,
     });
-
 
     let infowindow = new window.google.maps.InfoWindow();
     let bounds = new window.google.maps.LatLngBounds();
@@ -58,7 +60,7 @@ class App extends Component {
       client_id : 'LDOFR0JEF4ADEFUIESEGAH4QFKA1HB0SW2JJFACNWRVANT5J',
       client_secret : 'VDE3JJTRSTWCXPEAW1V2P3C0AZZEOA5VHV3KXDTT3Y1CMMUY',
       query : 'food',
-      ll : `${this.location.lat},${this.location.lng}`,
+      ll : `${this.state.location.lat},${this.state.location.lng}`,
       limit: 20,
       v: 20181127
     };
@@ -82,7 +84,9 @@ class App extends Component {
   render() {
     return (
       <main>
-        <div id="map"></div>
+        <Navbar/>
+        <Map/>
+        <Footer/>
       </main>
     );
   }
