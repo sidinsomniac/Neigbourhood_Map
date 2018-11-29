@@ -35,7 +35,7 @@ class App extends Component {
   // Loads the map with keys
   loadMap = () => {
     let key = 'AIzaSyBEcapmmHV5KKE8xT1jPWiyWVApNnRqMsE';
-    loadAPIScript(`https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`);
+    loadAPIScript(`https://maps.googleapis.com/maps/api/js?key=${key}&v=3&callback=initMap`);
     window.initMap = this.initMap;
   }
   

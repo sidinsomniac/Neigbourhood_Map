@@ -23,14 +23,15 @@ class Listing extends Component {
 			// });
 			// return this.state.visibleMarkers;
 		}).then(() => {
-			this.state.filteredNames.forEach(element => {
-				let marker = new window.google.maps.Marker({
-					position: {lat:element.venue.location.lat,lng:element.venue.location.lng},
-					map: this.props.map,
-					title: element.venue.name
-				});
-				this.props.markers.push(marker)
-			});
+			// this.state.filteredNames.forEach(element => {
+			// 	let marker = new window.google.maps.Marker({
+			// 		position: {lat:element.venue.location.lat,lng:element.venue.location.lng},
+			// 		map: this.props.map,
+			// 		title: element.venue.name
+			// 	});
+			// 	this.props.markers.push(marker)
+			// });
+			this.initMap();
 		})
 		// .then(setMarkers => {
 		// this.props.markers.filter(marker => !setMarkers.includes(marker)).map(marker => marker.setMap(null));
@@ -50,6 +51,31 @@ class Listing extends Component {
 			}
 			resolve();
 		})
+	}
+
+	initMap = () => {
+		let infowindow = new window.google.maps.InfoWindow();
+		let bounds = new window.google.maps.LatLngBounds();
+	
+		this.state.filteredNames.forEach(newVenue => {
+		  let contentString = `<h3>${newVenue.venue.name}</h3>
+		  <h4>${newVenue.venue.categories[0].name}</h4>`;
+		  
+		  let marker = new window.google.maps.Marker({
+			position: {lat:newVenue.venue.location.lat,lng:newVenue.venue.location.lng},
+			map: this.props.map,
+			title: newVenue.venue.name
+		  })
+	
+		  bounds.extend(marker.position);
+	
+		  marker.addListener('click', () => {
+			infowindow.setContent(contentString);
+			infowindow.open(this.props.map,marker);
+		  });
+		  this.props.markers.push(marker);
+		})
+		this.props.map.fitBounds(bounds);
 	}
 
 	render() {
