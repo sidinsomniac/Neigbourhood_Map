@@ -28,6 +28,14 @@
 	box-sizing: border-box;
 }
 
+#venueList li:hover,
+#venueList li:nth-of-type(even):hover {
+	background: #aaa;
+	cursor: pointer;
+	color: white;
+	text-decoration: underline;
+}
+
 #venueList li:nth-of-type(even) {
 	background: #eee;
 }

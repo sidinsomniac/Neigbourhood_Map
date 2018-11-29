@@ -53,7 +53,7 @@ class App extends Component {
   createMarkersAndInfoWindows = (arrayList,bounds) => {
     let infowindow = new window.google.maps.InfoWindow();
 
-    arrayList.forEach(newVenue => {
+    arrayList.forEach((newVenue,index) => {
       let contentString = `<h3>${newVenue.venue.name}</h3>
       <h4>${newVenue.venue.categories[0].name}</h4>`;
       
@@ -70,7 +70,10 @@ class App extends Component {
       marker.addListener('click', () => {
         infowindow.setContent(contentString);
         infowindow.open(map,marker);
+        map.setCenter({lat:marker.getPosition().lat(),lng:marker.getPosition().lng()});
       });
+
+      
       markers.push(marker);
     })
 
@@ -118,8 +121,9 @@ class App extends Component {
         {/* Listings */}
 				{this.state.showListing && 
         <Listing 
-        venueList={this.state.venues} 
-        markers={markers} 
+        venueList={this.state.venues}
+        markers={markers}
+        map={map}
         createMarkersAndInfoWindows={this.createMarkersAndInfoWindows}/>}
 
         {/* Map */}

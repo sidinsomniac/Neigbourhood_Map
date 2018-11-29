@@ -62,8 +62,11 @@ class Listing extends Component {
 				 />
 
 				<ul id='venueList'>
-					{this.state.filteredNames.map(eachVenue => (
-						<li key={eachVenue.venue.id}>{eachVenue.venue.name}</li>
+					{this.state.filteredNames.map((eachVenue,index) => (
+						<li key={eachVenue.venue.id} onClick={()=>{
+							this.props.map.setCenter({lat:eachVenue.venue.location.lat,lng:eachVenue.venue.location.lng});
+							window.google.maps.event.trigger(this.props.markers[index],'click')
+						}}>{eachVenue.venue.name}</li>
 					))}
 				</ul>
 
