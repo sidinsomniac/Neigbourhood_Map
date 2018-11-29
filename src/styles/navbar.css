@@ -7,6 +7,8 @@ nav {
 nav h1 {
 	text-align: center;
 	width: 100%;
+	letter-spacing: 0.3rem;
+	font-weight: normal;
 }
 
 #hamburger {
@@ -17,6 +19,8 @@ nav h1 {
 	background: #fff;
 	color: #000;
 	z-index: 3;
+	cursor: pointer;
+	outline: none;
 }
 
 #hamburger:hover {
