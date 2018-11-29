@@ -50,7 +50,7 @@ class Listing extends Component {
 
 	render() {
 		return (
-			<section id='listing'>
+			<section id='listing' className={this.props.listClass}>
 
 				<input type="text"
 				placeholder="Search by title or author"

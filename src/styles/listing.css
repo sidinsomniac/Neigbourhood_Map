@@ -39,3 +39,10 @@
 #venueList li:nth-of-type(even) {
 	background: #eee;
 }
+.show-lists {
+	display: block;
+}
+
+.hide-lists {
+	display: none;
+}

@@ -15,6 +15,7 @@ class App extends Component {
     venues: [],
     location: {lat: 22.5918202, lng: 88.417336},
     showListing: false,
+    renderListing: false,
     selectedMarkerIndex: 0,
     center: {}
   }
@@ -23,7 +24,8 @@ class App extends Component {
   // Hide venue lists on hamburger click
   hideListings = () => {
     this.setState({
-      showListing: !this.state.showListing
+      showListing: !this.state.showListing,
+      renderListing: true
     })
   }
 
@@ -119,12 +121,15 @@ class App extends Component {
         <Navbar hideListings={this.hideListings}/>
 
         {/* Listings */}
-				{this.state.showListing && 
-        <Listing 
-        venueList={this.state.venues}
-        markers={markers}
-        map={map}
-        createMarkersAndInfoWindows={this.createMarkersAndInfoWindows}/>}
+				
+        {this.state.renderListing && 
+          <Listing
+          listClass={this.state.showListing ? 'show-lists' : 'hide-lists'} 
+          venueList={this.state.venues}
+          markers={markers}
+          map={map}
+          createMarkersAndInfoWindows={this.createMarkersAndInfoWindows}/>
+        }
 
         {/* Map */}
         <Map/>
