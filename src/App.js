@@ -13,7 +13,7 @@ class App extends Component {
   // State
   state = {
     venues: [],
-    location: {lat: 22.6206, lng: 88.4329},
+    location: {lat: 22.5918202, lng: 88.417336},
     showListing: false,
     selectedMarkerIndex: 0,
     center: {}
@@ -44,13 +44,14 @@ class App extends Component {
   initMap = () => {
     map = new window.google.maps.Map(document.getElementById('map'), {
       center: this.state.location,
+      zoom: 14
     });
-    this.createMarkersAndInfoWindows(this.state.venues);
+    let bounds = new window.google.maps.LatLngBounds();
+    this.createMarkersAndInfoWindows(this.state.venues,bounds);
   }
 
-  createMarkersAndInfoWindows = (arrayList) => {
+  createMarkersAndInfoWindows = (arrayList,bounds) => {
     let infowindow = new window.google.maps.InfoWindow();
-    let bounds = new window.google.maps.LatLngBounds();
 
     arrayList.forEach(newVenue => {
       let contentString = `<h3>${newVenue.venue.name}</h3>
@@ -62,7 +63,9 @@ class App extends Component {
         title: newVenue.venue.name
       })
 
-      bounds.extend(marker.position);
+      if (bounds) {
+        bounds.extend(marker.position);
+      }
 
       marker.addListener('click', () => {
         infowindow.setContent(contentString);
@@ -70,7 +73,10 @@ class App extends Component {
       });
       markers.push(marker);
     })
-    map.fitBounds(bounds);
+
+    if (bounds) {
+      map.fitBounds(bounds);
+    }
   }
 
   
@@ -114,7 +120,6 @@ class App extends Component {
         <Listing 
         venueList={this.state.venues} 
         markers={markers} 
-        map={map}
         createMarkersAndInfoWindows={this.createMarkersAndInfoWindows}/>}
 
         {/* Map */}

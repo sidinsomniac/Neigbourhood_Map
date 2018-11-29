@@ -22,16 +22,30 @@ class Listing extends Component {
 	filterVenues = (query) => {
 		return new Promise((resolve) => {
 			if (query) {
-				this.setState({
-					filteredNames: this.props.venueList.filter(name => name.venue.name.toLowerCase().indexOf(query.toLowerCase()) !== -1)
-				})
-			} else {
+				if (this.queryChecker(this.state.filteredNames,query)) {
 					this.setState({
+						filteredNames: this.props.venueList.filter(name => name.venue.name.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+					})
+				} else {
+					this.setState({
+						filteredNames: []
+					})
+				}
+			} else {
+				this.setState({
 					filteredNames: this.props.venueList
 				})
 			}
 			resolve();
 		})
+	}
+
+	queryChecker = (arr,query) => {
+		let flag = false;
+		arr.forEach(x => {
+			if (x.venue.name.toLowerCase().indexOf(query.toLowerCase()) > -1) { flag = true }
+		})
+		return flag;
 	}
 
 	render() {
@@ -44,7 +58,8 @@ class Listing extends Component {
 				value={this.state.query}
 				onChange={(event) => {
 					this.updateQuery(event.target.value)
-				}} />
+				}}
+				 />
 
 				<ul id='venueList'>
 					{this.state.filteredNames.map(eachVenue => (
