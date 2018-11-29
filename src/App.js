@@ -42,7 +42,7 @@ class App extends Component {
   
   // Initializes map markers and info windows
   initMap = () => {
-    const map = new window.google.maps.Map(document.getElementById('map'), {
+    map = new window.google.maps.Map(document.getElementById('map'), {
       center: this.state.location,
     });
 
@@ -65,6 +65,7 @@ class App extends Component {
         infowindow.setContent(contentString);
         infowindow.open(map,marker);
       });
+      markers.push(marker);
     })
     map.fitBounds(bounds);
   }
@@ -105,7 +106,7 @@ class App extends Component {
         {/* Navbar */}
         <Navbar hideListings={this.hideListings}/>
         {/* Listings */}
-				{this.state.showListing && <Listing venueList={this.state.venues}/>}        
+				{this.state.showListing && <Listing venueList={this.state.venues} markers={markers} map={map} />}        
         {/* Map */}
         <Map/>
         {/* Footer */}
@@ -115,6 +116,8 @@ class App extends Component {
   }
 }
 // ***End of Class***
+
+let map, markers = [];
 
 const loadAPIScript = url => {
   let firstScript = window.document.getElementsByTagName('script')[0];
