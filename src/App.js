@@ -57,7 +57,8 @@ class App extends Component {
 
     arrayList.forEach((newVenue,index) => {
       let contentString = `<h3>${newVenue.venue.name}</h3>
-      <h4>${newVenue.venue.categories[0].name}</h4>`;
+      <h4>${newVenue.venue.categories[0].name}, <span class="distance">${newVenue.venue.location.distance}m</span> from you</h4>
+      <p>${newVenue.venue.location.formattedAddress.join(', ')}</p>`;
       
       let marker = new window.google.maps.Marker({
         position: {lat:newVenue.venue.location.lat,lng:newVenue.venue.location.lng},
@@ -70,12 +71,17 @@ class App extends Component {
       }
 
       marker.addListener('click', () => {
-        infowindow.setContent(contentString);
-        infowindow.open(map,marker);
-        map.setCenter({lat:marker.getPosition().lat(),lng:marker.getPosition().lng()});
-      });
+        if (infowindow.marker !== marker) {
+          infowindow.marker = marker;
+          infowindow.setContent(contentString);
+        }
+        infowindow.open(map, marker);
 
-      
+        marker.setAnimation(window.google.maps.Animation.BOUNCE);
+        setTimeout(() => marker.setAnimation(null), 1000);
+
+        map.setCenter({lat:marker.getPosition().lat(),lng:marker.getPosition().lng()});
+      });      
       markers.push(marker);
     })
 
