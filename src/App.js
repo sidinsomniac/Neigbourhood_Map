@@ -45,11 +45,14 @@ class App extends Component {
     map = new window.google.maps.Map(document.getElementById('map'), {
       center: this.state.location,
     });
+    this.createMarkersAndInfoWindows(this.state.venues);
+  }
 
+  createMarkersAndInfoWindows = (arrayList) => {
     let infowindow = new window.google.maps.InfoWindow();
     let bounds = new window.google.maps.LatLngBounds();
 
-    this.state.venues.forEach(newVenue => {
+    arrayList.forEach(newVenue => {
       let contentString = `<h3>${newVenue.venue.name}</h3>
       <h4>${newVenue.venue.categories[0].name}</h4>`;
       
@@ -105,10 +108,18 @@ class App extends Component {
       <main>
         {/* Navbar */}
         <Navbar hideListings={this.hideListings}/>
+
         {/* Listings */}
-				{this.state.showListing && <Listing venueList={this.state.venues} markers={markers} map={map} />}        
+				{this.state.showListing && 
+        <Listing 
+        venueList={this.state.venues} 
+        markers={markers} 
+        map={map}
+        createMarkersAndInfoWindows={this.createMarkersAndInfoWindows}/>}
+
         {/* Map */}
         <Map/>
+        
         {/* Footer */}
         <Footer/>
       </main>
