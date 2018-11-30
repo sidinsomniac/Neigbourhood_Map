@@ -46,7 +46,57 @@ class App extends Component {
   initMap = () => {
     map = new window.google.maps.Map(document.getElementById('map'), {
       center: this.state.location,
-      zoom: 14
+      zoom: 13,
+      styles: [
+        {
+          "featureType": "landscape.man_made",
+          "stylers": [
+            {
+              "color": "#ffd7d7"
+            }
+          ]
+        },
+        {
+          "featureType": "landscape.natural",
+          "stylers": [
+            {
+              "color": "#ceffce"
+            }
+          ]
+        },
+        {
+          "featureType": "poi.park",
+          "stylers": [
+            {
+              "color": "#80ff80"
+            }
+          ]
+        },
+        {
+          "featureType": "road.arterial",
+          "stylers": [
+            {
+              "color": "#c4c400"
+            }
+          ]
+        },
+        {
+          "featureType": "road.highway",
+          "stylers": [
+            {
+              "color": "#56a64a"
+            }
+          ]
+        },
+        {
+          "featureType": "water",
+          "stylers": [
+            {
+              "color": "#00ffff"
+            }
+          ]
+        }
+      ]
     });
     let bounds = new window.google.maps.LatLngBounds();
     this.createMarkersAndInfoWindows(this.state.venues,bounds);
