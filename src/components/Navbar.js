@@ -10,6 +10,7 @@ class Navbar extends Component {
 	render() {
 		return (
 			<nav>
+				{/* Toggles sidebar when hamburger icon clicked */}
 				<div id='hamburger' role='button' aria-label='Hamburger menu, click or press enter to engage' aria-describedby='hamburger-function' onClick={() => {
 					this.props.hideListings();
 				}}

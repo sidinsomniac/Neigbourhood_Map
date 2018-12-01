@@ -5,18 +5,18 @@
 - Google Maps API is used to generate the map, and the Foursquare API is used to fetch information such as address, distance etc.,to display when a marker is clicked.
 
 ## Features
-- A Google Maps implemenation that shows you the nearest restaurants around Kolkata. It is a fully mobile-responsive progressivewep-app, and is accessibility friendly.
+- A Google Maps implemenation that shows you the nearest restaurants around Kolkata. It is a fully mobile-responsive progressive web-app, and is accessibility friendly.
 - You can directly select the markers from the map, or by expanding the hamburger icon, and then by clicking on desired name of restaurant on the sidebar.
 - The sidebar locations can be filtered simply by typing in the name of the restaurant.
 - Choosing a location will display an info window, rich with information of the place, such as distance from the central point, address, type of restaurant etc.
 
 ## How to run the app
 - You'll need [NodeJs](https://nodejs.org/en/) to run this app.
-- Clone this [repository]() with the command `git clone https://github.com/sidinsomniac/Neighborhood-Map.git` in your terminal.
+- Clone this [repository](https://github.com/sidinsomniac/Neigbourhood_Map) with the command `git clone https://github.com/sidinsomniac/Neigbourhood_Map.git` in your terminal.
 - Install all dependencies in `package.json` by running the command `npm install` in your terminal.
 - Finally, run the server with `npm start`. This will automatically open the app in your browser. If not, open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
 - This is called the _***Development Mode***_, and the service worker will not be registered in this mode, and no caching of this page will take place, i.e. this app will not work offline in this mode.
-- Also, you can visit the live version of this app [here]()
+- Also, you can visit the live version of this app [here](https://sidinsomniac.github.io/Neigbourhood_Map/)
 
 ###  Then how do you run the app offline?
 - Don't worry, service workers have been made to be available in _***Production Mode***_. You can do that by simply running the command `npm run build` in your terminal. This builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes. See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.

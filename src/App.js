@@ -13,10 +13,12 @@ class App extends Component {
   // State
   state = {
     venues: [],
+    // default location
     location: {lat: 22.5918202, lng: 88.417336},
+    // toggles sidebar
     showListing: false,
+    // renders sidebar
     renderListing: false,
-    selectedMarkerIndex: 0,
     center: {}
   }
 
@@ -50,6 +52,7 @@ class App extends Component {
     map = new window.google.maps.Map(document.getElementById('map'), {
       center: this.state.location,
       zoom: 13,
+      // custom map style
       styles: [
         {
           "featureType": "landscape.man_made",
@@ -105,6 +108,7 @@ class App extends Component {
     this.createMarkersAndInfoWindows(this.state.venues,bounds);
   }
 
+  // only creates and updates markers and info window, not map
   createMarkersAndInfoWindows = (arrayList,bounds) => {
     let infowindow = new window.google.maps.InfoWindow();
 
@@ -192,8 +196,7 @@ class App extends Component {
         {/* Navbar */}
         <Navbar hideListings={this.hideListings}/>
 
-        {/* Listings */}
-				
+        {/* Listings */}				
         {this.state.renderListing && 
           <Listing
           listClass={this.state.showListing ? 'show-lists' : 'hide-lists'} 
@@ -214,8 +217,10 @@ class App extends Component {
 }
 // ***End of Class***
 
+// global map variable and markers array
 let map, markers = [];
 
+// constructs the script for Google Maps API
 const loadAPIScript = url => {
   let firstScript = window.document.getElementsByTagName('script')[0];
   let script = window.document.createElement('script');

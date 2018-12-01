@@ -7,10 +7,12 @@ class Listing extends Component {
 		filteredNames: this.props.venueList
 	}
 
+	// updates the query in the state
 	updateQuery = (query) => {
 		this.setState({
 			query:query
 		})
+		// updates markers based on the list filter
 		this.filterVenues(query).then(() => {
 			this.props.markers.map(marker => marker.setMap(null));
 			this.props.markers.length = 0;
@@ -19,6 +21,7 @@ class Listing extends Component {
 		})
 	}
 
+	// returns a Promise that filters locations based on the entered query
 	filterVenues = (query) => {
 		return new Promise((resolve) => {
 			if (query) {
@@ -40,6 +43,7 @@ class Listing extends Component {
 		})
 	}
 
+	// helper function to check if entered query matches location name
 	queryChecker = (arr,query) => {
 		let flag = false;
 		arr.forEach(x => {
@@ -48,6 +52,7 @@ class Listing extends Component {
 		return flag;
 	}
 
+	// activates the selected marker based on click or keypress
 	activateMarker = (eachVenue,index) => {
 		this.props.map.setCenter({lat:eachVenue.venue.location.lat,lng:eachVenue.venue.location.lng});
 		window.google.maps.event.trigger(this.props.markers[index],'click')
