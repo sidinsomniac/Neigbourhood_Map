@@ -32,8 +32,7 @@ class App extends Component {
       showListing: !this.state.showListing,
       renderListing: true
     })
-  }  
-
+  }
   
   // Loads the map with keys
   loadMap = () => {
@@ -113,9 +112,9 @@ class App extends Component {
     let highlightedIcon = this.makeMarkerIcon('FF0000');
 
     arrayList.forEach((newVenue,index) => {
-      let contentString = `<h3>${newVenue.venue.name}</h3>
-      <h4>${newVenue.venue.categories[0].name}, <span class="distance">${newVenue.venue.location.distance}m</span> from you</h4>
-      <p>${newVenue.venue.location.formattedAddress.join(', ')}</p>`;
+      let contentString = `<h3 tabIndex='0'>${newVenue.venue.name}</h3>
+      <h4 tabIndex='0'>${newVenue.venue.categories[0].name}, <span class="distance">${(newVenue.venue.location.distance/1000).toFixed(2)}km</span> from you</h4>
+      <p tabIndex='0'>${newVenue.venue.location.formattedAddress.join(', ')}</p>`;
       
       let marker = new window.google.maps.Marker({
         position: {lat:newVenue.venue.location.lat,lng:newVenue.venue.location.lng},
@@ -139,14 +138,15 @@ class App extends Component {
         setTimeout(() => marker.setAnimation(null), 1000);
 
         map.setCenter({lat:marker.getPosition().lat(),lng:marker.getPosition().lng()});
-      });      
 
+      });
+      
       marker.addListener('mouseover', function () {
         this.setIcon(highlightedIcon);
       });
       marker.addListener('mouseout', function () {
         this.setIcon(defaultIcon);
-      });
+      });        
 
       markers.push(marker);
     })
@@ -188,7 +188,7 @@ class App extends Component {
   // Renders page
   render() {
     return (
-      <main>
+      <main role='main' aria-label='Neighbourhood Map'>
         {/* Navbar */}
         <Navbar hideListings={this.hideListings}/>
 

@@ -5,3 +5,9 @@ footer {
 	justify-content: center;
 	align-items: center;
 }
+
+@media screen and (max-width: 400px) {
+	footer {
+		display: none;
+	}	
+}

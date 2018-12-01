@@ -2,3 +2,9 @@
 	width: 100vw;
 	height: 85vh;
 }
+
+@media screen and (max-width: 400px) {
+	#map {
+		height: 90vh;
+	}
+}

@@ -48,25 +48,39 @@ class Listing extends Component {
 		return flag;
 	}
 
+	activateMarker = (eachVenue,index) => {
+		this.props.map.setCenter({lat:eachVenue.venue.location.lat,lng:eachVenue.venue.location.lng});
+		window.google.maps.event.trigger(this.props.markers[index],'click')
+	}
+
 	render() {
 		return (
-			<section id='listing' className={this.props.listClass}>
+			<section id='listing' className={this.props.listClass} tabIndex='4'>
 
 				<input type="text"
-				placeholder="Search by title or author"
+				placeholder="Filter Restaurant Names"
 				id='searchbar'
 				value={this.state.query}
 				onChange={(event) => {
 					this.updateQuery(event.target.value)
 				}}
+				aria-label='Filter Textbox'
+				tabIndex='0'
 				 />
 
 				<ul id='venueList'>
 					{this.state.filteredNames.map((eachVenue,index) => (
-						<li key={eachVenue.venue.id} onClick={()=>{
-							this.props.map.setCenter({lat:eachVenue.venue.location.lat,lng:eachVenue.venue.location.lng});
-							window.google.maps.event.trigger(this.props.markers[index],'click')
-						}}>{eachVenue.venue.name}</li>
+						<li key={eachVenue.venue.id} 
+						aria-label={'List name for '+eachVenue.venue.name+' '+eachVenue.venue.categories[0].name} 
+						onClick={()=>{
+							this.activateMarker(eachVenue,index)
+						}}
+						onKeyDown={(event)=> {
+							if (event.keyCode === 13) {
+							this.activateMarker(eachVenue,index)								
+							}
+						}}
+						tabIndex='0'>{eachVenue.venue.name}</li>
 					))}
 				</ul>
 
