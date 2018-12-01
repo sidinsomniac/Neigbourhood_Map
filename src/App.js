@@ -20,6 +20,11 @@ class App extends Component {
     center: {}
   }
 
+  // Invoking function for getting locations from foursquare
+  componentDidMount() {
+    this.getLocation();
+  }
+
   
   // Hide venue lists on hamburger click
   hideListings = () => {
@@ -27,11 +32,7 @@ class App extends Component {
       showListing: !this.state.showListing,
       renderListing: true
     })
-  }
-
-  componentDidMount() {
-    this.getLocation();
-  }
+  }  
 
   
   // Loads the map with keys
@@ -40,6 +41,9 @@ class App extends Component {
     loadAPIScript(`https://maps.googleapis.com/maps/api/js?key=${key}&v=3&callback=initMap`);
     window.initMap = this.initMap;
   }
+
+  // creates a new marker icon
+  makeMarkerIcon = markerColor => new window.google.maps.MarkerImage('http://chart.googleapis.com/chart?chst=d_map_spin&chld=0.75|0|' + markerColor + '|40|_|%E2%80%A2')
   
   
   // Initializes map markers and info windows
@@ -105,6 +109,9 @@ class App extends Component {
   createMarkersAndInfoWindows = (arrayList,bounds) => {
     let infowindow = new window.google.maps.InfoWindow();
 
+    let defaultIcon = this.makeMarkerIcon('FFFFFF');
+    let highlightedIcon = this.makeMarkerIcon('FF0000');
+
     arrayList.forEach((newVenue,index) => {
       let contentString = `<h3>${newVenue.venue.name}</h3>
       <h4>${newVenue.venue.categories[0].name}, <span class="distance">${newVenue.venue.location.distance}m</span> from you</h4>
@@ -113,7 +120,8 @@ class App extends Component {
       let marker = new window.google.maps.Marker({
         position: {lat:newVenue.venue.location.lat,lng:newVenue.venue.location.lng},
         map: map,
-        title: newVenue.venue.name
+        title: newVenue.venue.name,
+        icon: defaultIcon
       })
 
       if (bounds) {
@@ -132,6 +140,14 @@ class App extends Component {
 
         map.setCenter({lat:marker.getPosition().lat(),lng:marker.getPosition().lng()});
       });      
+
+      marker.addListener('mouseover', function () {
+        this.setIcon(highlightedIcon);
+      });
+      marker.addListener('mouseout', function () {
+        this.setIcon(defaultIcon);
+      });
+
       markers.push(marker);
     })
 
