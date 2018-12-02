@@ -75,7 +75,8 @@ class Listing extends Component {
 
 				<ul id='venueList'>
 					{this.state.filteredNames.map((eachVenue,index) => (
-						<li key={eachVenue.venue.id} 
+						<li key={eachVenue.venue.id}
+						role='button'
 						aria-label={'List name for '+eachVenue.venue.name+' '+eachVenue.venue.categories[0].name} 
 						onClick={()=>{
 							this.activateMarker(eachVenue,index)

@@ -13,14 +13,14 @@ class App extends Component {
   // State
   state = {
     venues: [],
-    // default location
-    location: {lat: 22.5918202, lng: 88.417336},
     // toggles sidebar
     showListing: false,
     // renders sidebar
     renderListing: false,
     center: {}
   }
+
+  location = {lat: 22.5918202, lng: 88.417336}
 
   // Invoking function for getting locations from foursquare
   componentDidMount() {
@@ -50,7 +50,7 @@ class App extends Component {
   // Initializes map markers and info windows
   initMap = () => {
     map = new window.google.maps.Map(document.getElementById('map'), {
-      center: this.state.location,
+      center: this.location,
       zoom: 13,
       // custom map style
       styles: [
@@ -118,7 +118,8 @@ class App extends Component {
     arrayList.forEach((newVenue,index) => {
       let contentString = `<h3 tabIndex='0'>${newVenue.venue.name}</h3>
       <h4 tabIndex='0'>${newVenue.venue.categories[0].name}, <span class="distance">${(newVenue.venue.location.distance/1000).toFixed(2)}km</span> from you</h4>
-      <p tabIndex='0'>${newVenue.venue.location.formattedAddress.join(', ')}</p>`;
+      <p tabIndex='0'>${newVenue.venue.location.formattedAddress.join(', ')}</p>
+      <p id='acknowledgement'>Provided by FourSquare</p>`;
       
       let marker = new window.google.maps.Marker({
         position: {lat:newVenue.venue.location.lat,lng:newVenue.venue.location.lng},
@@ -168,23 +169,31 @@ class App extends Component {
       client_id : 'LDOFR0JEF4ADEFUIESEGAH4QFKA1HB0SW2JJFACNWRVANT5J',
       client_secret : 'VDE3JJTRSTWCXPEAW1V2P3C0AZZEOA5VHV3KXDTT3Y1CMMUY',
       query : 'food',
-      ll : `${this.state.location.lat},${this.state.location.lng}`,
+      ll : `${this.location.lat},${this.location.lng}`,
       limit: 20,
       v: 20181127
     };
-      fetch(endPoint
-        +'client_id='+parameters.client_id
-        +'&client_secret='+parameters.client_secret
-        +'&v='+parameters.v
-        +'&ll='+parameters.ll
-        +'&query='+parameters.query
-        +'&limit='+parameters.limit)
+    fetch(
+      endPoint
+      +'client_id='+parameters.client_id
+      +'&client_secret='+parameters.client_secret
+      +'&v='+parameters.v
+      +'&ll='+parameters.ll
+      +'&query='+parameters.query
+      +'&limit='+parameters.limit
+      )
+    .then( response => {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      return response;
+    })
     .then(response => response.json())
     .then(data => this.setState({
       venues: data.response.groups[0].items
     },this.loadMap()))
-    .catch(function(error) {
-        console.log('Error: '+error);
+    .catch(err => {
+        alert(err);
     });
   }
 
@@ -228,6 +237,13 @@ const loadAPIScript = url => {
   script.async = true;
   script.defer = true;
   firstScript.parentNode.insertBefore(script,firstScript);
+  script.onerror = () => {
+    alert("Error loading " + script.src);
+  };
+}
+
+window.gm_authFailure = () => {
+  alert('There was an error in authentication. Please provide a valid token');
 }
 
 export default App;

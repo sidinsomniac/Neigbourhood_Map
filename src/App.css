@@ -10,3 +10,9 @@ body {
   display: flex;
   flex-wrap: wrap;
 }
+
+#acknowledgement {
+  font-size: 0.9em;
+  text-align: right;
+  font-style: italic;
+}
